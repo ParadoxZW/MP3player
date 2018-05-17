@@ -12,9 +12,11 @@ import java.net.URL;
 import java.net.URLConnection;
 public class GetRun extends Thread{
 	String url;
-	public GetRun(String url) {
+	StringBuilder response;
+	public GetRun(StringBuilder response, String url) {
 		// TODO Auto-generated constructor stub
 		this.url = url;
+		this.response = response;
 	}
 	@Override
     public void run() {
@@ -27,15 +29,16 @@ public class GetRun extends Thread{
             InputStreamReader isr = new InputStreamReader(in,"utf-8");
             BufferedReader br = new BufferedReader(isr);
             String line;
-            StringBuilder sb = new StringBuilder();
+//            StringBuilder sb = new StringBuilder();
             while((line = br.readLine()) != null)
             {
-                sb.append(line);
+                response.append(line);
             }
             br.close();
             isr.close();
             in.close();
-            System.out.println(sb.toString());
+            System.out.println(response.hashCode());
+//            System.out.println(response.toString()+"\n");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

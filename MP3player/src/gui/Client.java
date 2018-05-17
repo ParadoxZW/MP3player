@@ -13,7 +13,7 @@ public class Client {
     private JTextField searchText;
     private Player player;
     private JList musicList;
-    private String musicPath = "C:\\Users\\96473\\Desktop\\code\\MP3player\\MP3player\\file_for_test";
+    private String musicPath = "file_for_test";
     private ArrayList<String> musicLists;
 
     private void go(){
