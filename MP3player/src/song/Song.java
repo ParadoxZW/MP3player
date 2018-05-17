@@ -1,4 +1,3 @@
-package song;
 public class Song {
     private String id; // 歌曲编号 考虑到我们可能会下载两首同名歌曲 所以歌曲统一以 编号.mp3 命名格式保存在本地
     //我们会在本地建一个txt文件记录已经下载的歌曲的id和歌名、歌手、文件路径等用于本地检索的信息
@@ -8,6 +7,14 @@ public class Song {
     private String dir; //  歌曲文件本地路径
     private String lyrics; // 备用功能
     // 预留专辑封面.jpg属性
+
+//    Song(String name,String artist_name,String address,String lyrics){
+//        this.name = name;
+//        this.artist_name = artist_name;
+//        this.address = address;
+//        this.lyrics = lyrics;
+//    }
+
     void setId(String id){
         this.id = id;
     }

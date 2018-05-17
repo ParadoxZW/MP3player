@@ -1,5 +1,3 @@
-package gui;
-import player.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +11,7 @@ public class Client {
     private JTextField searchText;
     private Player player;
     private JList musicList;
-    private String musicPath = "C:\\Users\\96473\\Desktop\\code\\MP3player\\MP3player\\file_for_test";
+    private String musicPath = "C:\\Users\\牟宇\\Music";  //根据自己本地歌曲的路径进行更改
     private ArrayList<String> musicLists;
 
     private void go(){
@@ -40,12 +38,12 @@ public class Client {
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new stopButtonActionListener());
 
+        //添加控件到Panel上
         mainPanel.add(searchText);
         mainPanel.add(searchButton);
         mainPanel.add(qScroller);
         mainPanel.add(playButton);
         mainPanel.add(stopButton);
-
 
         //整体框架设置
         JFrame frame = new JFrame("网易云音乐");
@@ -54,6 +52,7 @@ public class Client {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
+    //获取本地文件夹中的歌曲名字
     private ArrayList<String> getMusicList(String musicPath){
         musicLists = new ArrayList<>();
         File file = new File(musicPath);
@@ -75,7 +74,9 @@ public class Client {
     private class searchButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            Search_and_Download search_and_download = new Search_and_Download();
+            Search_Client search_client = search_and_download.doJson(search_and_download.getRes(searchText.getText()));
+            search_client.go(searchText.getText());
         }
     }
 
@@ -105,7 +106,7 @@ public class Client {
 
         }
     }
-
+    //Play按钮的监听
     private class playButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -115,7 +116,7 @@ public class Client {
             player.start();
         }
     }
-
+    //Stop按钮的监听
     private class stopButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
