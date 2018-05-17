@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="player.MP3Player"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Method"/>
+<fullyQualifiedTypeName name="song.Song"/>
+<fullyQualifiedTypeName name="search_and_download.GetRun"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
 </qualifiedTypeNameHistroy>
