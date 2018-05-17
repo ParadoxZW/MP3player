@@ -8,40 +8,40 @@ public class Song {
     private String dir; //  歌曲文件本地路径
     private String lyrics; // 备用功能
     // 预留专辑封面.jpg属性
-    void setId(String id){
+    public void setId(String id){
         this.id = id;
     }
-    void setName(String name){
+    public void setName(String name){
         this.name = name;
     }
-    void setArtist_name(String artist_name){
+    public void setArtist_name(String artist_name){
         this.artist_name = artist_name;
     }
-    void setAddress(String address){
+    public void setAddress(String address){
         this.address =address;
     }
-    void setDir(String dir){
+    public void setDir(String dir){
         this.dir = dir;
     }
-    void setLyrics(String lyrics){
+    public void setLyrics(String lyrics){
         this.lyrics = lyrics;
     }
-    String getId(){
+    public String getId(){
         return id;
     }
-    String getName(){
+    public String getName(){
         return name;
     }
-    String getArtist_name(){
+    public String getArtist_name(){
         return artist_name;
     }
-    String getAddress(){
+    public String getAddress(){
         return address;
     }
-    String getDir(){
+    public String getDir(){
         return dir;
     }
-    String getLyrics(){
+    public String getLyrics(){
         return lyrics;
     }
 }
