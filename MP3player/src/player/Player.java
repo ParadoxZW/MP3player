@@ -1,4 +1,3 @@
-package player;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 
@@ -6,7 +5,7 @@ public class Player implements Runnable{
     Thread t;
     private String dir;
     private javazoom.jl.player.Player player;
-    public Player(String dir){   //创建MP3Play的对象，并传入歌曲本地路径
+    Player(String dir){   //创建MP3Play的对象，并传入歌曲本地路径
         this.dir = dir;
     }
     public void setDir(String dir){
