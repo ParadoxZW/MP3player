@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.Test;
+
 import song.Song;
 
 public class Search {
 	static ArrayList<Song> list = new ArrayList<Song>();//每次搜索都会更新
 	static boolean status;
-	public static final void search(String name_) {
+	public static void search(String name_) {
 		/**
 		 * 输入歌名，返回歌曲数组 */
 		new Thread(new Runnable() {  
@@ -33,8 +35,10 @@ public class Search {
                     connection.connect();  
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));  
                     String s;  
-                    if ((s=reader.readLine())!=null)  
-                        doJson(s);  
+                    if ((s=reader.readLine())!=null)
+                    	System.out.println(s);
+                        doJson(s);
+//                    System.out.println("w");
 //                    	System.out.println(s);
                 } catch (IOException e) {  
                     e.printStackTrace();  
@@ -52,6 +56,7 @@ public class Search {
             jsonObject = new JSONObject(json);  
             JSONArray array = new JSONArray(jsonObject.getString("song"));
             int i = 0;
+            System.out.println(array.length());
             while (i<array.length()){  
                 JSONObject object = array.getJSONObject(i);
                 
@@ -65,16 +70,15 @@ public class Search {
                 song1.setName(songname);
                 song1.setArtist_name(artistname);
                 getAdress(song1);
-                
-                
+//                System.out.println(song1.getId());
 //                song1.setLrcPath(getLrcAdress(songid));
                 if(status) {
-//                	System.out.println(i);
+                	System.out.println(i);
                 	list.add(i,song1);
                 	i++;
                 }
             }
-//            System.out.println(list.size());
+            System.out.println(list.size());
         } catch (JSONException e) {  
             e.printStackTrace();  
         }  
@@ -84,8 +88,7 @@ public class Search {
             @Override  
             public void run() {  
                 try {  
-                    HttpURLConnection connection;  
-                    //URL url = new URL("http://api.5288z.com/weixin/musicapi.php?q="+finalTitle);
+                    HttpURLConnection connection;
 //                    System.out.println(song.getId());
                     URL url = new URL("http://ting.baidu.com/data/music/links?songIds="+song.getId());  
                     connection = (HttpURLConnection) url.openConnection();  
@@ -95,7 +98,7 @@ public class Search {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));  
                     String s;  
                     if ((s=reader.readLine())!=null){
-//                    	System.out.println(s);
+                    	System.out.println(s);
                     	File fp=new File(song.getId()+".txt");
                         PrintWriter pfp= new PrintWriter(fp);
                         pfp.print(s);
@@ -167,8 +170,16 @@ public class Search {
 //            e.printStackTrace();  
 //        }  
 //        return LrcAdress;  
-//    }  
+//    }
+	
 	public static void main(String[] args) {
-		search("告白气球");
+		 search("告白气球");
+		try {
+			Thread.sleep(10000);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+        Download d = new Download(list.get(0));
+        d.runDownload();
 	}
 }
