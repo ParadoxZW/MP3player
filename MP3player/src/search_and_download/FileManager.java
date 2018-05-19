@@ -28,9 +28,9 @@ public class FileManager {
 	 * 	--log.json	存储了本地歌曲信息
 	 * 	--id.mp3
 	 *	--id.lrc 可选 */
-	static ArrayList<Song> locallist = new ArrayList<Song>();
+	public static ArrayList<Song> locallist = new ArrayList<Song>();
 	static JSONArray json;  
-	static void logRead() {
+	public static void logRead() {
 		new Thread(new Runnable() {  
             @Override  
             public void run() {  
@@ -62,7 +62,7 @@ public class FileManager {
             e.printStackTrace();  
         }
 	}
-	static void logWrite(){
+	public static void logWrite(){
 		new Thread(new Runnable() {  
             @Override  
             public void run() {  
@@ -84,7 +84,7 @@ public class FileManager {
         }
 		
 	}
-	static void addLog(Song ns) {
+	public static void addLog(Song ns) {
 		new Thread(new Runnable() {  
             @Override  
             public void run() {  

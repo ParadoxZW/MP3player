@@ -17,8 +17,8 @@ import org.json.Test;
 import song.Song;
 
 public class Search {
-	static ArrayList<Song> list = new ArrayList<Song>();//每次搜索都会更新
-	static int state;//-2：没有搜索结果；-3：网络或服务器存在异常
+	public static ArrayList<Song> list = new ArrayList<Song>();//每次搜索都会更新
+	public static int state;//-2：没有搜索结果；-3：网络或服务器存在异常
 	public static void search(String name_) {
 		/**
 		 * 输入歌名，返回歌曲数组 */
@@ -44,7 +44,12 @@ public class Search {
                     e.printStackTrace();  
                 }  
             }  
-        }).start();  
+        }).start();
+		try {  
+            Thread.sleep(500);  
+        } catch (InterruptedException e) {  
+            e.printStackTrace();  
+        }
 	}
 	private static void doJson(String json) {
 //		System.out.println("entry");
