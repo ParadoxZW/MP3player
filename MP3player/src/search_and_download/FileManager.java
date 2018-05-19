@@ -89,7 +89,6 @@ public class FileManager {
             @Override  
             public void run() {  
                 try {
-                	logRead();
                 	locallist.add(ns);
                     JSONObject njson = new JSONObject();
                     njson.put("id", ns.getId());

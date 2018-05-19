@@ -12,11 +12,28 @@ import song.Song;
 import search_and_download.FileManager;
 public class Download {
 	Song song;
+	int state;//-1:本地已存在；-2：网络连接异常
 	public Download(Song song) {
 		// TODO Auto-generated constructor stub
 		this.song = song;
+		//检查是否已存在本地
+		FileManager.logRead();
+		 try {  
+	            Thread.sleep(500);  
+	        } catch (InterruptedException e) {  
+	            e.printStackTrace();  
+	        }
+		for (int i = 0; i < FileManager.locallist.size(); i++) {
+			if (song.getId().equals(FileManager.locallist.get(i).getId())) {
+				state = -1;
+			}
+		}
 	}
-	void runDownload() {
+	void runDownload() {	
+		if (state == -1) {
+			System.out.println("already existed!");
+			return;
+		}
 		new Thread(new Runnable() {  
 	        @Override  
 	        public void run() {  
@@ -46,13 +63,15 @@ public class Download {
 	              
 	                	fout.close();
 	                	FileManager.addLog(song);
-	//                	System.out.println("Downloading done");
+	                	System.out.println("Downloading done");
 	                }
 	                else
 	                {
-	                	System.out.println("Error no connection can be made");
+//	                	System.out.println("Error no connection can be made");
+	                	state = -2;
 	                }
 	        	}catch(Exception e){
+	        		state = -2;
 	        		System.out.println("Check execption inside run "+e);
 	        		}
 	        	}

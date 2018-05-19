@@ -18,7 +18,7 @@ import song.Song;
 
 public class Search {
 	static ArrayList<Song> list = new ArrayList<Song>();//每次搜索都会更新
-	static boolean status;
+	static int state;//-2：没有搜索结果；-3：网络或服务器存在异常
 	public static void search(String name_) {
 		/**
 		 * 输入歌名，返回歌曲数组 */
@@ -36,7 +36,7 @@ public class Search {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));  
                     String s;  
                     if ((s=reader.readLine())!=null)
-                    	System.out.println(s);
+//                    	System.out.println(s);
                         doJson(s);
 //                    System.out.println("w");
 //                    	System.out.println(s);
@@ -47,6 +47,7 @@ public class Search {
         }).start();  
 	}
 	private static void doJson(String json) {
+//		System.out.println("entry");
 		JSONObject jsonObject = null;  
         list.clear();//清空原有的歌曲数组  
         try {  
@@ -55,11 +56,11 @@ public class Search {
             json = json.replace(")","");  
             jsonObject = new JSONObject(json);  
             JSONArray array = new JSONArray(jsonObject.getString("song"));
-            int i = 0;
-            System.out.println(array.length());
-            while (i<array.length()){  
-                JSONObject object = array.getJSONObject(i);
-                
+            int i = 0, j = 0;
+//            System.out.println(array.length());
+            while (j<array.length()){  
+                JSONObject object = array.getJSONObject(j);
+                j++;
                 String songname = object.getString("songname");  
                 String artistname = object.getString("artistname");  
                 String songid = object.getString("songid");
@@ -70,23 +71,28 @@ public class Search {
                 song1.setName(songname);
                 song1.setArtist_name(artistname);
                 getAdress(song1);
-//                System.out.println(song1.getId());
 //                song1.setLrcPath(getLrcAdress(songid));
-                if(status) {
-                	System.out.println(i);
+                if (state == 0 || state == -1) {
+                	System.out.println(state+" failed!");
+                	continue;
+                }
+                if (state == 1) {
+                	System.out.println(i+" "+song1.getId()+" "+song1.getArtist_name());
                 	list.add(i,song1);
                 	i++;
                 }
             }
+            if (list.size() == 0) {
+            	if (state == 0) state = -2;//没有搜索结果
+            	if (state == -1) state = -3;//网络或服务器存在异常
+            }
             System.out.println(list.size());
         } catch (JSONException e) {  
             e.printStackTrace();  
-        }  
+        }
+//        System.out.println("exit");
 	}
-	private static void getAdress(Song song){  
-        new Thread(new Runnable() {  
-            @Override  
-            public void run() {  
+	private static void getAdress(Song song){    
                 try {  
                     HttpURLConnection connection;
 //                    System.out.println(song.getId());
@@ -99,10 +105,10 @@ public class Search {
                     String s;  
                     if ((s=reader.readLine())!=null){
                     	System.out.println(s);
-                    	File fp=new File(song.getId()+".txt");
-                        PrintWriter pfp= new PrintWriter(fp);
-                        pfp.print(s);
-                        pfp.close();
+//                    	File fp=new File(song.getId()+".txt");
+//                        PrintWriter pfp= new PrintWriter(fp);
+//                        pfp.print(s);
+//                        pfp.close();
                         s = s.replace("\\","");//去掉\\
 //                        String s1 = new String(s);
                         try {  
@@ -111,22 +117,22 @@ public class Search {
                             JSONArray array = object1.getJSONArray("songList");  
                             JSONObject object2 = array.getJSONObject(0);
                             song.setAddress(object2.getString("songLink"));
-                            status = true;
+                            state = 1;
+                            if (song.getAddress().equals(""))state = 0;
                         } catch (JSONException e) {  
 //                            e.printStackTrace();
-                        	status = false;
+                        	state = 0;
                         }  
                     }  
-                } catch (IOException e) {  
-                    e.printStackTrace();  
+                } catch (IOException e) {
+                	state = -1;
+//                    e.printStackTrace();  
                 }  
-            }  
-        }).start();  
-        try {  
-            Thread.sleep(500);  
-        } catch (InterruptedException e) {  
-            e.printStackTrace();  
-        }
+//        try {  
+//            Thread.sleep(500);  
+//        } catch (InterruptedException e) {  
+//            e.printStackTrace();  
+//        }
     }  
   
     //获取歌词地址  
@@ -173,13 +179,13 @@ public class Search {
 //    }
 	
 	public static void main(String[] args) {
-		 search("告白气球");
+		search("exit music");
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(6000);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-        Download d = new Download(list.get(0));
+        Download d = new Download(list.get(6));
         d.runDownload();
 	}
 }
