@@ -78,11 +78,11 @@ public class Search {
                 getAdress(song1);
 //                song1.setLrcPath(getLrcAdress(songid));
                 if (state == 0 || state == -1) {
-                	System.out.println(state+" failed!");
+//                	System.out.println(state+" failed!");
                 	continue;
                 }
                 if (state == 1) {
-                	System.out.println(i+" "+song1.getId()+" "+song1.getArtist_name());
+//                	System.out.println(i+" "+song1.getId()+" "+song1.getArtist_name());
                 	list.add(i,song1);
                 	i++;
                 }
@@ -91,7 +91,7 @@ public class Search {
             	if (state == 0) state = -2;//没有搜索结果
             	if (state == -1) state = -3;//网络或服务器存在异常
             }
-            System.out.println(list.size());
+//            System.out.println(list.size());
         } catch (JSONException e) {  
             e.printStackTrace();  
         }
@@ -109,7 +109,7 @@ public class Search {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));  
                     String s;  
                     if ((s=reader.readLine())!=null){
-                    	System.out.println(s);
+//                    	System.out.println(s);
 //                    	File fp=new File(song.getId()+".txt");
 //                        PrintWriter pfp= new PrintWriter(fp);
 //                        pfp.print(s);

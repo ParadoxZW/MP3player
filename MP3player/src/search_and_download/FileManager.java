@@ -28,13 +28,14 @@ public class FileManager {
 	 * 	--log.json	存储了本地歌曲信息
 	 * 	--id.mp3
 	 *	--id.lrc 可选 */
-	public static ArrayList<Song> locallist = new ArrayList<Song>();
+	public static ArrayList<Song> locallist;
 	static JSONArray json;  
 	public static void logRead() {
 		new Thread(new Runnable() {  
             @Override  
             public void run() {  
-                try {    
+                try {
+                	locallist = new ArrayList<Song>();
                 	JSONTokener jsonTokener = new JSONTokener(new FileReader(new File("Music\\log.json")));  
                     json = new JSONArray(jsonTokener);
                     int k = json.length();

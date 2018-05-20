@@ -17,7 +17,7 @@ public class Client {
     private JTextField searchText;
     private Player player;
     private JList musicList;
-    private String musicPath = "Music";
+//    private String musicPath = "Music";
     private ArrayList<Song> songlist;//musicList对应的Song列表
     private ArrayList<String> stringlist;//songlist对应的字符串列表
 
@@ -29,7 +29,7 @@ public class Client {
         searchText.addMouseListener(new searchTextMouseListener());
         //歌曲列表
         musicList = new JList(getMusicList().toArray());
-        musicList.setBorder(BorderFactory.createTitledBorder("歌曲列表   共" + stringlist.size() + "首"));
+        musicList.setBorder(BorderFactory.createTitledBorder("本地歌曲列表   共" + stringlist.size() + "首"));
         musicList.setFixedCellWidth(450);
         musicList.setVisibleRowCount(12);
         //歌曲列表滚动条
@@ -107,7 +107,7 @@ public class Client {
             	Song so = songlist.get(i);
 				stringlist.add(so.getName()+"	   "+so.getArtist_name());
             }
-        	
+        	musicList.setBorder(BorderFactory.createTitledBorder("搜索到   共" + stringlist.size() + "首"));
         	musicList.setListData(stringlist.toArray());
         }
     }
@@ -124,7 +124,9 @@ public class Client {
     private class localButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+        	stringlist = getMusicList();
+        	musicList.setListData(stringlist.toArray());
+            musicList.setBorder(BorderFactory.createTitledBorder("本地歌曲列表   共" + stringlist.size() + "首"));
         }
     }
     private class searchTextMouseListener implements MouseListener {

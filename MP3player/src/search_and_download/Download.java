@@ -31,7 +31,7 @@ public class Download {
 	}
 	public void runDownload() {	
 		if (state == -1) {
-			System.out.println("already existed!");
+//			System.out.println("already existed!");
 			return;
 		}
 		new Thread(new Runnable() {  
@@ -63,7 +63,7 @@ public class Download {
 	              
 	                	fout.close();
 	                	FileManager.addLog(song);
-	                	System.out.println("Downloading done");
+//	                	System.out.println("Downloading done");
 	                }
 	                else
 	                {
@@ -72,7 +72,7 @@ public class Download {
 	                }
 	        	}catch(Exception e){
 	        		state = -2;
-	        		System.out.println("Check execption inside run "+e);
+//	        		System.out.println("Check execption inside run "+e);
 	        		}
 	        	}
 	    }).start();
