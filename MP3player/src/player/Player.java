@@ -2,6 +2,8 @@ package player;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 
+import javazoom.jl.player.advanced.PlaybackListener;
+
 public class Player implements Runnable{
     Thread t;
     private String dir;
@@ -24,7 +26,8 @@ public class Player implements Runnable{
     public void stop(){     //调用stop()方法可以让歌曲停止播放
         player.close();
     }
-    private int getPosition(){
+    public int getPosition(){
+    	
         return player.getPosition();
     }
     @Override

@@ -1,12 +1,23 @@
 package gui;
+import player.PlayTest;
 import player.Player;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import search_and_download.Download;
 import search_and_download.FileManager;
@@ -15,8 +26,13 @@ import song.Song;
 
 public class Client {
     private JTextField searchText;
-    private Player player;
+    private PlayTest player;
     private JList musicList;
+    private JSlider js;
+    private int time;
+    private long begintime;
+    JTextArea jTextArea1;
+    JTextArea jTextArea2;
 //    private String musicPath = "Music";
     private ArrayList<Song> songlist;//musicList对应的Song列表
     private ArrayList<String> stringlist;//songlist对应的字符串列表
@@ -51,12 +67,22 @@ public class Client {
         //停止按钮
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new stopButtonActionListener());
+        //进度条
+        js = new JSlider(); 
+        js.addMouseListener(new myMouseListener());
+        js.setValue(0);
+        //进度显示
+        jTextArea1 = new JTextArea("00:00");
+        jTextArea2 = new JTextArea("00:00");
 
         mainPanel.add(searchText);
         mainPanel.add(searchButton);
         mainPanel.add(localButton);
         mainPanel.add(downButton);
         mainPanel.add(qScroller);
+        mainPanel.add(jTextArea1);
+        mainPanel.add(js);
+        mainPanel.add(jTextArea2);
         mainPanel.add(playButton);
         mainPanel.add(stopButton);
 
@@ -89,9 +115,62 @@ public class Client {
     public static void main(String[] args){
         Client client = new Client();
         client.go();
-
+//        client.test();
     }
+//    private class sliderListener implements ChangeListener{
+//
+//		@Override
+//		public void stateChanged(ChangeEvent e) {
+//			// TODO Auto-generated method stub
+//			if (flag == false) {
+//			int t = js.getValue();
+//			if (player != null) player.stop();
+//            Song so = songlist.get(musicList.getSelectedIndex());
+//            player = new PlayTest(so.getDir());
+//			player.start = t;
+//			player.start();
+//			begintime += (time - t);
+//			}
+//		}
+//    	
+//    }
+    private class myMouseListener implements MouseListener{
 
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			player.state = -1;
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			int t = js.getValue();
+			long n = System.currentTimeMillis();
+			begintime = n - t;
+			playmusic(t / 25, false);
+			player.state = 1;
+		}
+    	
+    }
     private class searchButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -111,22 +190,14 @@ public class Client {
         	musicList.setListData(stringlist.toArray());
         }
     }
-    private class downButtonActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        	Download d = new Download(songlist.get(musicList.getSelectedIndex()));
-        	d.runDownload();
-        	if (player != null) player.stop();
-        	player = new Player(songlist.get(musicList.getSelectedIndex()).getDir());
-            player.start();
-        }
-    }
+    
     private class localButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
         	stringlist = getMusicList();
         	musicList.setListData(stringlist.toArray());
             musicList.setBorder(BorderFactory.createTitledBorder("本地歌曲列表   共" + stringlist.size() + "首"));
+           
         }
     }
     private class searchTextMouseListener implements MouseListener {
@@ -155,21 +226,82 @@ public class Client {
 
         }
     }
-
+	private class downButtonActionListener implements ActionListener {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	Download d = new Download(songlist.get(musicList.getSelectedIndex()));
+	        	d.runDownload();
+	        	playmusic(0, true);
+	        }
+	    }
     private class playButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (player != null) player.stop();
-            Song so = songlist.get(musicList.getSelectedIndex());
-            player = new Player(so.getDir());
-            player.start();
+            playmusic(0, true);
         }
     }
-
+    private void playmusic(int t, boolean bool) {
+    	if (player != null) player.stop();
+        Song so = songlist.get(musicList.getSelectedIndex());
+        player = new PlayTest(so.getDir());
+        if (bool){
+        	js.setMaximum(player.Length()*1000);
+        	jTextArea2.setText(String.format("%02d:%02d", player.Length() / 60, player.Length() % 60));
+        	sliderAction();
+        }
+        player.start(t);
+	}
+    private void sliderAction() {
+    	player.state = 1;
+    	new Thread(new Runnable() {  
+            @Override  
+            public void run() {
+            	begintime = System.currentTimeMillis();
+                while (player.state != 0) {
+                	int s = js.getValue() / 1000;
+                	jTextArea1.setText(String.format("%02d:%02d", s / 60, s % 60));
+                	if (player.state == 1) {
+//                		System.out.println("A");
+	                	long nowtime = System.currentTimeMillis();
+//	                	System.out.println("B");
+	                	time = (int)(nowtime - begintime);
+//	                	System.out.println("C");
+	                	js.setValue(time);
+//	                	System.out.println("D");
+                	}
+                	else {
+//                		System.out.println("E");
+                		try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                		continue;
+					}
+                }
+                js.setValue(0);
+                jTextArea1.setText("00:00");
+                jTextArea2.setText("00:00");
+            }  
+    	}).start();
+    }
     private class stopButtonActionListener implements ActionListener {
-        @Override
+		@Override
         public void actionPerformed(ActionEvent e) {
+        	player.state = 0;
             player.stop();
         }
     }
+    private void test() {
+    	new Thread(new Runnable() {  
+            @Override  
+            public void run() {
+                while (true) {
+                	if (player != null)
+                	System.out.println(""+player.state+"   "+time);
+                }
+            }  
+    	}).start();
+	}
 }

@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="player.MP3Player"/>
-<fullyQualifiedTypeName name="java.lang.Override"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Method"/>
-<fullyQualifiedTypeName name="java.lang.OutOfMemoryError"/>
-<fullyQualifiedTypeName name="search_and_download.GetRun"/>
 <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 <fullyQualifiedTypeName name="java.net.HttpURLConnection"/>
 <fullyQualifiedTypeName name="java.net.URLEncoder"/>
@@ -15,7 +10,6 @@
 <fullyQualifiedTypeName name="net.sf.json.JSONObject"/>
 <fullyQualifiedTypeName name="net.sf.json.JSONArray"/>
 <fullyQualifiedTypeName name="org.json.JSONException"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
 <fullyQualifiedTypeName name="org.json.JSONArray"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
@@ -26,11 +20,44 @@
 <fullyQualifiedTypeName name="org.json.JSONTokener"/>
 <fullyQualifiedTypeName name="org.json.JSONObject"/>
 <fullyQualifiedTypeName name="org.json.Test"/>
-<fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="search_and_download.FileManager"/>
 <fullyQualifiedTypeName name="song.Song"/>
 <fullyQualifiedTypeName name="search_and_download.Search"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="search_and_download.Download"/>
+<fullyQualifiedTypeName name="java.lang.Runnable"/>
+<fullyQualifiedTypeName name="javazoom.jl.player.advanced.PlaybackListener"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="player.PlayTest"/>
+<fullyQualifiedTypeName name="javazoom.jl.decoder.Control"/>
+<fullyQualifiedTypeName name="javazoom.jl.player.PlayerApplet"/>
+<fullyQualifiedTypeName name="player.Player"/>
+<fullyQualifiedTypeName name="javazoom.jl.player.Player"/>
+<fullyQualifiedTypeName name="javazoom.jl.converter.Converter"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="player.Temp"/>
+<fullyQualifiedTypeName name="java.security.spec.ECPrivateKeySpec"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.jaudiotagger.audio.mp3.MP3File"/>
+<fullyQualifiedTypeName name="org.jaudiotagger.audio.AudioFileIO"/>
+<fullyQualifiedTypeName name="org.jaudiotagger.audio.mp3.MP3AudioHeader"/>
+<fullyQualifiedTypeName name="javazoom.jl.player.advanced.AdvancedPlayer"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Field"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="javax.swing.JSlider"/>
+<fullyQualifiedTypeName name="javax.swing.event.ChangeListener"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+<fullyQualifiedTypeName name="gui.Client.sliderActionlistener"/>
+<fullyQualifiedTypeName name="gui.Test"/>
+<fullyQualifiedTypeName name="java.lang.Thread.State"/>
+<fullyQualifiedTypeName name="java.awt.event.MouseListener"/>
+<fullyQualifiedTypeName name="java.awt.event.MouseMotionListener"/>
+<fullyQualifiedTypeName name="gui.Test.myMouseListener"/>
+<fullyQualifiedTypeName name="gui.Test.myMouseMotionListener"/>
+<fullyQualifiedTypeName name="gui.Client.myMouseListener"/>
+<fullyQualifiedTypeName name="player.PlayTest.TestPlaybackListener"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="javax.swing.JTextArea"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
 </qualifiedTypeNameHistroy>
