@@ -4,6 +4,7 @@ import player.Player;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.basic.BasicBorders.ToggleButtonBorder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,7 @@ public class Client {
     private JList musicList;
     private JSlider js;
     private int time;
+    private int state;
     private long begintime;
     JTextArea jTextArea1;
     JTextArea jTextArea2;
@@ -39,17 +41,57 @@ public class Client {
 
     @SuppressWarnings("unchecked")
 	private void go(){
-        JPanel mainPanel = new JPanel();
+        JPanel mainPanel = new myPanel();
         //搜索框
         searchText = new JTextField("Search for musics...",20);
         searchText.addMouseListener(new searchTextMouseListener());
         //歌曲列表
         musicList = new JList(getMusicList().toArray());
+        musicList.setBackground(new Color(205, 205, 205, 0));
+        musicList.setOpaque(false);
         musicList.setBorder(BorderFactory.createTitledBorder("本地歌曲列表   共" + stringlist.size() + "首"));
+        musicList.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getClickCount() ==2) {
+					if (state == 0) playmusic(0, true);
+					else if (state == 1) down();
+				}
+			}
+		});
+
         musicList.setFixedCellWidth(450);
         musicList.setVisibleRowCount(12);
         //歌曲列表滚动条
         JScrollPane qScroller = new JScrollPane(musicList);
+        qScroller.setOpaque(false);  
+        qScroller.getViewport().setOpaque(false); 
         qScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //搜索按钮
@@ -89,6 +131,7 @@ public class Client {
 
         //整体框架设置
         JFrame frame = new JFrame("网易云音乐");
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("pic\\icon.jpg"));
         frame.getContentPane().add(BorderLayout.CENTER,mainPanel);
         frame.setSize(500,380);
         frame.setVisible(true);
@@ -174,6 +217,7 @@ public class Client {
     private class searchButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+        	state = 1;
         	Search.search(searchText.getText());
         	try {  
                 Thread.sleep(3000);  
@@ -194,6 +238,7 @@ public class Client {
     private class localButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+        	state = 0;
         	stringlist = getMusicList();
         	musicList.setListData(stringlist.toArray());
             musicList.setBorder(BorderFactory.createTitledBorder("本地歌曲列表   共" + stringlist.size() + "首"));
@@ -229,11 +274,14 @@ public class Client {
 	private class downButtonActionListener implements ActionListener {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	        	Download d = new Download(songlist.get(musicList.getSelectedIndex()));
-	        	d.runDownload();
-	        	playmusic(0, true);
+	        	down();
 	        }
 	    }
+	private void down() {
+		Download d = new Download(songlist.get(musicList.getSelectedIndex()));
+    	d.runDownload();
+    	playmusic(0, true);
+	}
     private class playButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -241,7 +289,17 @@ public class Client {
         }
     }
     private void playmusic(int t, boolean bool) {
-    	if (player != null) player.stop();
+    	if (player != null) {
+//    		int tt = js.getValue();
+    		if (bool) player.state = 0;
+    		player.stop();
+    	}
+    	try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         Song so = songlist.get(musicList.getSelectedIndex());
         player = new PlayTest(so.getDir());
         if (bool){
@@ -293,15 +351,19 @@ public class Client {
             player.stop();
         }
     }
-    private void test() {
-    	new Thread(new Runnable() {  
-            @Override  
-            public void run() {
-                while (true) {
-                	if (player != null)
-                	System.out.println(""+player.state+"   "+time);
-                }
-            }  
-    	}).start();
-	}
+   private class myPanel extends JPanel {  
+    ImageIcon icon;  
+    Image img;  
+    public myPanel() {  
+        //  /img/HomeImg.jpg 是存放在你正在编写的项目的bin文件夹下的img文件夹下的一个图片  
+        icon=new ImageIcon("pic\\bg.jpg");  
+        img=icon.getImage();  
+    }  
+    public void paintComponent(Graphics g) {  
+        super.paintComponent(g);  
+        //下面这行是为了背景图片可以跟随窗口自行调整大小，可以自己设置成固定大小  
+        g.drawImage(img, 0, 0,this.getWidth(), this.getHeight(), this);  
+    }  
+  
+}  
 }

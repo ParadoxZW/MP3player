@@ -55,6 +55,7 @@ public class PlayTest implements Runnable{
         }
     }
     public void stop(){     //调用stop()方法可以让歌曲停止播放
+    	System.out.println("1");
         player.close();
     }
     public void pbListener() {
